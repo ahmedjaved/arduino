@@ -1,0 +1,77 @@
+// https://cdn-learn.adafruit.com/downloads/pdf/adafruit-proto-shield-arduino.pdf?timestamp=1550977788
+// uses photo resistor, rgb led and buzzer
+// when photo resistor senses low light then the buzzer sings and rgb led lights up
+const int buzzer = 9;
+int leds = 10;
+
+int redPin = 3;
+int greenPin = 5;
+int bluePin = 6;
+
+const int photoResistor = A0;
+
+
+void setup() {
+//  Serial.begin(9600);
+  pinMode(buzzer, OUTPUT);
+  pinMode(leds, OUTPUT);
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
+  setColor(0, 0, 0);
+}
+
+void loop() {
+
+  int value = analogRead(photoResistor);
+//  Serial.print("Photresistor value: ");
+//  Serial.println(value);
+  if ( value < 50) {
+    Serial.println("It is DARK");
+    digitalWrite(leds, LOW);
+
+    setColor(255, 0, 0); //red
+    tone(buzzer, 5000, 50);
+    delay(500);
+
+
+    setColor(0, 255, 0); // green
+    tone(buzzer, 5500, 50);
+    delay(500);
+
+    setColor(0, 0, 255); // blue
+    tone(buzzer, 6000, 50);
+    delay(500);
+
+    setColor(255, 255, 0);// yellow
+    tone(buzzer, 6500, 50);
+    delay(500);
+
+    setColor(80, 0, 80); // purple
+    tone(buzzer, 7000, 50);
+    delay(500);
+
+    setColor(0, 255, 255); //aqua
+    tone(buzzer, 7500, 50);
+    delay(500);
+
+    setColor(0, 0, 0);
+    tone(buzzer, 8000, 50);
+    delay(500);
+
+    noTone(buzzer);
+    delay(500);
+  }
+  else {
+//    Serial.println("It is BRIGHT");
+    digitalWrite(leds, HIGH);
+    setColor(0, 0, 0);
+    delay(500);
+  }
+}
+
+void setColor(int redValue, int greenValue, int blueValue) {
+  analogWrite(redPin, 255 - redValue);
+  analogWrite(greenPin, 255 - greenValue);
+  analogWrite(bluePin, 255 - blueValue);
+}
